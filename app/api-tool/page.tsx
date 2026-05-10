@@ -57,8 +57,8 @@ export const APITool = () => {
         if (inputAPI.length > 0) {
             tempURL = inputAPI
             if (getQueryKeyValue.length > 0) {
-                getQueryKeyValue.map((qkv) => {
-                    tempURL = `${tempURL}?${qkv.query}=${qkv.value}`
+                getQueryKeyValue.map((qkv, i) => {
+                    tempURL = i === 0 ? `${tempURL}?${qkv.query}=${qkv.value}` : `${tempURL}&${qkv.query}=${qkv.value}`
                 })
             }
         }
