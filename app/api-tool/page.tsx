@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { GetView } from "./components/get";
 import { ResponseView } from "./components/response";
@@ -15,40 +15,12 @@ export const APITool = () => {
   const [apiMethod, setAPIMethod] = useState("");
   const [callResponse, setCallResponse] = useState({});
 
-  const [getQueryKey, setGetQueryKey] = useState<string | number>("");
-  const [getQueryValue, setGetQueryValue] = useState<string | number>("");
   const [getQueryKeyValue, setGetQueryKeyValue] = useState<GetQuery[]>([]);
 
   const [fullAPI, setFullAPI] = useState("");
 
-  useEffect(() => {
-    console.log("inputAPI", inputAPI);
-  }, [inputAPI]);
-
-  useEffect(() => {
-    console.log("apiMethod", apiMethod);
-  }, [apiMethod]);
-
-  useEffect(() => {
-    console.log("callResponse", callResponse);
-  }, [callResponse]);
-
-  useEffect(() => {
-    console.log("getQueryKeyValue", getQueryKeyValue);
-  }, [getQueryKeyValue]);
-
-  useEffect(() => {
-    console.log("getQueryKey", getQueryKey);
-  }, [getQueryKey]);
-
-  useEffect(() => {
-    console.log("getQueryValue", getQueryValue);
-  }, [getQueryValue]);
-
   const apiCall = async () => {
     if (apiMethod === "GET") {
-      let tempUrl = "";
-
       try {
         const response = await fetch(fullAPI);
         const data = await response.json();
@@ -77,24 +49,6 @@ export const APITool = () => {
     }
     console.log("tempURL", tempURL);
     setFullAPI(tempURL);
-  };
-
-  const handleQueryKeyValueInputs = (
-    key: string | number,
-    value: string | number,
-  ) => {
-    console.log("key", key);
-    console.log("value", value);
-    if (key === "key") setGetQueryKey(value);
-
-    if (key === "value") setGetQueryValue(value);
-  };
-
-  const handleQueryAdd = () => {
-    setGetQueryKeyValue([
-      ...getQueryKeyValue,
-      { query: getQueryKey, value: getQueryValue },
-    ]);
   };
 
   return (
@@ -142,14 +96,7 @@ export const APITool = () => {
                         setAPIMethod('DELETE')
                     }}>DELETE</button> */}
         </div>
-        <div>
-          {apiMethod === "GET" && (
-            <GetView
-              onChange={handleQueryKeyValueInputs}
-              onClick={handleQueryAdd}
-            />
-          )}
-        </div>
+        <div>{apiMethod === "GET" && <GetView />}</div>
         <div>
           <button className="bg-blue-500 w-24 mt-1" onClick={() => apiCall()}>
             Call
