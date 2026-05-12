@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 
 import { GetView } from "./components/get";
+import { ResponseView } from "./components/response";
 
 interface GetQuery {
   query: string | number;
@@ -147,7 +148,7 @@ export const APITool = () => {
           </button>
         </div>
         <div>
-          <p>{JSON.stringify(callResponse)}</p>
+          <ResponseView response={JSON.stringify(callResponse)} />
         </div>
       </div>
     </>
