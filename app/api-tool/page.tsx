@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import { GetView } from "./components/get";
 import { ResponseView } from "./components/response";
@@ -47,6 +47,8 @@ export const APITool = () => {
 
   const apiCall = async () => {
     if (apiMethod === "GET") {
+      let tempUrl = "";
+
       try {
         const response = await fetch(fullAPI);
         const data = await response.json();
@@ -145,8 +147,6 @@ export const APITool = () => {
             <GetView
               onChange={handleQueryKeyValueInputs}
               onClick={handleQueryAdd}
-              getQueryKey={getQueryKey}
-              getQueryValue={getQueryValue}
             />
           )}
         </div>
