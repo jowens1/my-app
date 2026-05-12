@@ -2,11 +2,13 @@
 
 type Props = {
   onChange: (key: string | number, value: string | number) => void;
+  onClick:() => void;
   getQueryKey: string | number;
   getQueryValue: string | number;
 };
 
-export const GetView = ({ onChange, getQueryKey, getQueryValue }: Props) => {
+export const GetView = ({ onChange, onClick, getQueryKey, getQueryValue }: Props) => {
+  
   return (
     <>
       <input
@@ -27,6 +29,15 @@ export const GetView = ({ onChange, getQueryKey, getQueryValue }: Props) => {
           onChange("value", e.target.value);
         }}
       />
+      <button
+        className="bg-blue-500 text-black w-24"
+        onClick={() => {
+          console.log("TEST");
+          onClick();
+        }}
+      >
+        Add
+      </button>
     </>
   );
 };

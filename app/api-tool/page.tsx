@@ -13,7 +13,7 @@ interface GetQuery {
 export const APITool = () => {
   const [inputAPI, setInputApi] = useState("");
   const [apiMethod, setAPIMethod] = useState("");
-  const [callResponse, setCallResponse] = useState();
+  const [callResponse, setCallResponse] = useState({});
 
   const [getQueryKey, setGetQueryKey] = useState<string | number>("");
   const [getQueryValue, setGetQueryValue] = useState<string | number>("");
@@ -88,6 +88,13 @@ export const APITool = () => {
     if (key === "value") setGetQueryValue(value);
   };
 
+  const handleQueryAdd = () => {
+    setGetQueryKeyValue([
+      ...getQueryKeyValue,
+      { query: getQueryKey, value: getQueryValue },
+    ]);
+  };
+
   return (
     <>
       <div>
@@ -137,6 +144,7 @@ export const APITool = () => {
           {apiMethod === "GET" && (
             <GetView
               onChange={handleQueryKeyValueInputs}
+              onClick={handleQueryAdd}
               getQueryKey={getQueryKey}
               getQueryValue={getQueryValue}
             />
@@ -148,7 +156,7 @@ export const APITool = () => {
           </button>
         </div>
         <div>
-          <ResponseView response={JSON.stringify(callResponse)} />
+          <ResponseView response={callResponse} />
         </div>
       </div>
     </>
