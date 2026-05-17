@@ -5,17 +5,19 @@ import { useState } from "react";
 import { GetView } from "./components/get";
 import { ResponseView } from "./components/response";
 
+import { useGetContext } from "./context/GetContext";
+
 interface GetQuery {
   query: string | number;
   value: string | number;
 }
 
 export const APITool = () => {
+  const { queryKeyValues } = useGetContext();
+
   const [inputAPI, setInputApi] = useState("");
   const [apiMethod, setAPIMethod] = useState("");
   const [callResponse, setCallResponse] = useState({});
-
-  const [getQueryKeyValue, setGetQueryKeyValue] = useState<GetQuery[]>([]);
 
   const [fullAPI, setFullAPI] = useState("");
 
@@ -25,12 +27,7 @@ export const APITool = () => {
         const response = await fetch(fullAPI);
         const data = await response.json();
         setCallResponse(data);
-        console.log("data", data);
-      } catch (error) {
-        console.log("error", error);
-      } finally {
-        console.log("finally");
-      }
+      } catch (error) {}
     }
   };
 
@@ -38,8 +35,8 @@ export const APITool = () => {
     let tempURL = "";
     if (inputAPI.length > 0) {
       tempURL = inputAPI;
-      if (getQueryKeyValue.length > 0) {
-        getQueryKeyValue.map((qkv, i) => {
+      if (queryKeyValues.length > 0) {
+        queryKeyValues.map((qkv, i) => {
           tempURL =
             i === 0
               ? `${tempURL}?${qkv.query}=${qkv.value}`
@@ -47,7 +44,7 @@ export const APITool = () => {
         });
       }
     }
-    console.log("tempURL", tempURL);
+
     setFullAPI(tempURL);
   };
 
@@ -70,7 +67,6 @@ export const APITool = () => {
           <button
             className="bg-blue-500 text-black w-24"
             onClick={() => {
-              console.log("TEST");
               buildURL();
             }}
           >

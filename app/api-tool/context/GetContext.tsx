@@ -3,7 +3,7 @@ import React, { createContext, ReactNode, useContext, useState } from "react";
 
 type QueryKeyValuesType = {
   id: number | undefined;
-  key: string | number | undefined;
+  query: string | number | undefined;
   value: string | number | undefined;
 };
 
@@ -12,7 +12,7 @@ interface QueryKVContextType {
   setQueryKeyValues: React.Dispatch<React.SetStateAction<QueryKeyValuesType[]>>;
 }
 export const defaultQKV: QueryKVContextType = {
-  queryKeyValues: [{ id: 0, key: "", value: "" }],
+  queryKeyValues: [{ id: 0, query: "", value: "" }],
   setQueryKeyValues: () => {},
 };
 

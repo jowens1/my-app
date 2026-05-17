@@ -14,7 +14,7 @@ export const GetView = () => {
             placeholder="Add Query"
             className="bg-white text-black w-full mt-1 mr-1"
             type="string"
-            value={qKV.key}
+            value={qKV.query}
             onChange={(e) => {
               handleOnChange("key", e.target.value, index);
             }}
@@ -33,7 +33,6 @@ export const GetView = () => {
             key={`btn${qKV.id}`}
             className="bg-blue-500 text-black w-24 mt-1"
             onClick={() => {
-              console.log("Remove");
               removeQueryKeyValue(index);
             }}
           >
@@ -51,7 +50,7 @@ export const GetView = () => {
   ) => {
     const newQueryKeyValues = queryKeyValues.map((queryKeyValue, ind) => {
       if (ind === index) {
-        if (key === "key") return { ...queryKeyValue, key: value };
+        if (key === "key") return { ...queryKeyValue, query: value };
 
         if (key === "value") return { ...queryKeyValue, value: value };
       }
@@ -63,7 +62,7 @@ export const GetView = () => {
   const addQueryKeyValue = () => {
     setQueryKeyValues([
       ...queryKeyValues,
-      { id: queryKeyValues.length - 1, key: "", value: "" },
+      { id: queryKeyValues.length - 1, query: "", value: "" },
     ]);
   };
 
@@ -78,7 +77,6 @@ export const GetView = () => {
       <button
         className="bg-blue-500 text-black w-24 mt-1"
         onClick={() => {
-          console.log("Add");
           addQueryKeyValue();
         }}
       >
