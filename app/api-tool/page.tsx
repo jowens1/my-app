@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 import { GetView } from "./components/get";
 import { ResponseView } from "./components/response";
+
+import { useGetContext } from "./context/GetContext";
 
 interface GetQuery {
   query: string | number;
@@ -11,39 +13,13 @@ interface GetQuery {
 }
 
 export const APITool = () => {
+  const { queryKeyValues } = useGetContext();
+
   const [inputAPI, setInputApi] = useState("");
   const [apiMethod, setAPIMethod] = useState("");
   const [callResponse, setCallResponse] = useState({});
 
-  const [getQueryKey, setGetQueryKey] = useState<string | number>("");
-  const [getQueryValue, setGetQueryValue] = useState<string | number>("");
-  const [getQueryKeyValue, setGetQueryKeyValue] = useState<GetQuery[]>([]);
-
   const [fullAPI, setFullAPI] = useState("");
-
-  useEffect(() => {
-    console.log("inputAPI", inputAPI);
-  }, [inputAPI]);
-
-  useEffect(() => {
-    console.log("apiMethod", apiMethod);
-  }, [apiMethod]);
-
-  useEffect(() => {
-    console.log("callResponse", callResponse);
-  }, [callResponse]);
-
-  useEffect(() => {
-    console.log("getQueryKeyValue", getQueryKeyValue);
-  }, [getQueryKeyValue]);
-
-  useEffect(() => {
-    console.log("getQueryKey", getQueryKey);
-  }, [getQueryKey]);
-
-  useEffect(() => {
-    console.log("getQueryValue", getQueryValue);
-  }, [getQueryValue]);
 
   const apiCall = async () => {
     if (apiMethod === "GET") {
@@ -51,12 +27,7 @@ export const APITool = () => {
         const response = await fetch(fullAPI);
         const data = await response.json();
         setCallResponse(data);
-        console.log("data", data);
-      } catch (error) {
-        console.log("error", error);
-      } finally {
-        console.log("finally");
-      }
+      } catch (error) {}
     }
   };
 
@@ -64,35 +35,16 @@ export const APITool = () => {
     let tempURL = "";
     if (inputAPI.length > 0) {
       tempURL = inputAPI;
-      if (getQueryKeyValue.length > 0) {
-        getQueryKeyValue.map((qkv, i) => {
-          tempURL =
-            i === 0
-              ? `${tempURL}?${qkv.query}=${qkv.value}`
-              : `${tempURL}&${qkv.query}=${qkv.value}`;
-        });
-      }
+
+      queryKeyValues.map((qkv, i) => {
+        tempURL =
+          i === 0
+            ? `${tempURL}?${qkv.query}=${qkv.value}`
+            : `${tempURL}&${qkv.query}=${qkv.value}`;
+      });
     }
-    console.log("tempURL", tempURL);
+
     setFullAPI(tempURL);
-  };
-
-  const handleQueryKeyValueInputs = (
-    key: string | number,
-    value: string | number,
-  ) => {
-    console.log("key", key);
-    console.log("value", value);
-    if (key === "key") setGetQueryKey(value);
-
-    if (key === "value") setGetQueryValue(value);
-  };
-
-  const handleQueryAdd = () => {
-    setGetQueryKeyValue([
-      ...getQueryKeyValue,
-      { query: getQueryKey, value: getQueryValue },
-    ]);
   };
 
   return (
@@ -114,7 +66,6 @@ export const APITool = () => {
           <button
             className="bg-blue-500 text-black w-24"
             onClick={() => {
-              console.log("TEST");
               buildURL();
             }}
           >
@@ -140,16 +91,7 @@ export const APITool = () => {
                         setAPIMethod('DELETE')
                     }}>DELETE</button> */}
         </div>
-        <div>
-          {apiMethod === "GET" && (
-            <GetView
-              onChange={handleQueryKeyValueInputs}
-              onClick={handleQueryAdd}
-              getQueryKey={getQueryKey}
-              getQueryValue={getQueryValue}
-            />
-          )}
-        </div>
+        <div>{apiMethod === "GET" && <GetView />}</div>
         <div>
           <button className="bg-blue-500 w-24 mt-1" onClick={() => apiCall()}>
             Call
