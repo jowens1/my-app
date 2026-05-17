@@ -35,14 +35,13 @@ export const APITool = () => {
     let tempURL = "";
     if (inputAPI.length > 0) {
       tempURL = inputAPI;
-      if (queryKeyValues.length > 0) {
-        queryKeyValues.map((qkv, i) => {
-          tempURL =
-            i === 0
-              ? `${tempURL}?${qkv.query}=${qkv.value}`
-              : `${tempURL}&${qkv.query}=${qkv.value}`;
-        });
-      }
+
+      queryKeyValues.map((qkv, i) => {
+        tempURL =
+          i === 0
+            ? `${tempURL}?${qkv.query}=${qkv.value}`
+            : `${tempURL}&${qkv.query}=${qkv.value}`;
+      });
     }
 
     setFullAPI(tempURL);
