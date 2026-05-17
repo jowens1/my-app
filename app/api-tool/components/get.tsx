@@ -1,16 +1,9 @@
 "use client";
-import { useState } from "react";
 
-type QueryKeyValues = {
-  id: number | undefined;
-  key: string | number | undefined;
-  value: string | number | undefined;
-};
+import { useGetContext } from "../context/GetContext";
 
 export const GetView = () => {
-  const [queryKeyValues, setQueryKeyValues] = useState<QueryKeyValues[]>([
-    { id: 0, key: "", value: "" },
-  ]);
+  const { queryKeyValues, setQueryKeyValues } = useGetContext();
 
   const buildQueryKeyValueInputs = () => {
     return queryKeyValues.map((qKV, index) => {
