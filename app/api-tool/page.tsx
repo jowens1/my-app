@@ -35,8 +35,11 @@ export const APITool = () => {
     let tempURL = "";
     if (inputAPI.length > 0) {
       tempURL = inputAPI;
+      console.log("queryKeyValues.length", queryKeyValues.length);
 
-      queryKeyValues.map((qkv, i) => {
+      const cleanedQueryKeyValues = queryKeyValues.filter((qKV) => qKV.query);
+
+      cleanedQueryKeyValues.forEach((qkv, i) => {
         tempURL =
           i === 0
             ? `${tempURL}?${qkv.query}=${qkv.value}`
